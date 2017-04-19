@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BaseFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, BaseFragment.OnFragmentInteractionListener {
 
     private static final int NUM_ITEMS = 2;
     private final ArrayList<BaseFragment> mFragments = new ArrayList<>(NUM_ITEMS);
@@ -29,16 +29,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initToolbar();
-        setTitle("主页");
+        initView();
     }
 
-    private void initToolbar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
-
+    private void initView(){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -75,11 +69,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initFragments(){
         mFragments.add(new HeartRateFragment());
         mFragments.add(new BloodPressureFragment());
-    }
-
-    private  void setTitle(String titleName){
-        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(titleName);
     }
 
     @Override

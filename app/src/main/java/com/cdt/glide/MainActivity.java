@@ -2,13 +2,9 @@ package com.cdt.glide;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,7 +15,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BaseFragment.OnFragmentInteractionListener {
+
+    private static final int NUM_ITEMS = 2;
+    private final ArrayList<BaseFragment> mFragments = new ArrayList<>(NUM_ITEMS);
+    private ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +48,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        MyPagerAdapter adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(adapterViewPager);
+        initFragments();
 
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        FragmentPagerAdapter adapterViewPager = new FragmentPagerAdapter(getSupportFragmentManager(), mFragments);
+        mViewPager.setAdapter(adapterViewPager);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -57,11 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 0){
-                    setTitle("心率");
-                }else{
-                    setTitle("血压");
-                }
+                setTitle(mFragments.get(position).getTitle());
             }
 
             @Override
@@ -71,9 +72,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    private void initFragments(){
+        mFragments.add(new HeartRateFragment());
+        mFragments.add(new BloodPressureFragment());
+    }
+
     private  void setTitle(String titleName){
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         toolbarTitle.setText(titleName);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTitle(mFragments.get(mViewPager.getCurrentItem()).getTitle());
     }
 
     @Override
@@ -139,45 +151,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
+        private ArrayList<BaseFragment> fragments;
 
-    class MyPagerAdapter extends FragmentPagerAdapter {
-        private int NUM_ITEMS = 2;
-        private Fragment Fragment1;
-        private Fragment Fragment2;
-
-        public MyPagerAdapter(FragmentManager fragmentManager) {
+        public FragmentPagerAdapter(FragmentManager fragmentManager, ArrayList<BaseFragment> fragments) {
             super(fragmentManager);
+            this.fragments = fragments;
         }
 
-        // Returns total number of pages
         @Override
         public int getCount() {
-            return NUM_ITEMS;
+            return fragments.size();
         }
 
-        // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0: // Fragment # 0 - This will show FirstFragment
-                    if (Fragment1 == null) {
-                        Fragment1 = new HeartRateFragment();
-                    }
-                    return Fragment1;
-                case 1: // Fragment # 0 - This will show FirstFragment different title
-                    if (Fragment2 == null) {
-                        Fragment2 = new BloodPressureFragment();
-                    }
-                    return Fragment2;
-                default:
-                    return null;
-            }
+            return fragments.get(position);
         }
 
-        // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Page " + position;
+            return fragments.get(position).getTitle();
         }
 
     }

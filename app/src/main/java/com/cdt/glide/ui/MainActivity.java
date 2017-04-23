@@ -22,8 +22,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final int NUM_ITEMS = 2;
     private final ArrayList<BaseFragment> mFragments = new ArrayList<>(NUM_ITEMS);
     private ViewPager mViewPager;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,19 +64,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
-        mSwipeRefreshLayout = ((SwipeRefreshLayout) findViewById(R.id.swipe_refresh_view));
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mSwipeRefreshLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 1000);
-            }
-        });
     }
 
     private void initFragments(){

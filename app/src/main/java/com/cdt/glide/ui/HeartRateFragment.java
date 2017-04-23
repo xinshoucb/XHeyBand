@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import com.cdt.glide.R;
  * create an instance of this fragment.
  */
 public class HeartRateFragment extends BaseFragment {
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     public HeartRateFragment() {
         // Required empty public constructor
     }
@@ -52,10 +55,25 @@ public class HeartRateFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_heart_rate, container, false);
+        View contentView = inflater.inflate(R.layout.fragment_heart_rate, container, false);
+
+        mSwipeRefreshLayout = ((SwipeRefreshLayout) contentView.findViewById(R.id.swipe_refresh_view));
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+
+        return contentView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

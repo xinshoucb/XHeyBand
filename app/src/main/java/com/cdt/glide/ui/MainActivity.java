@@ -1,4 +1,4 @@
-package com.cdt.glide;
+package com.cdt.glide.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,12 +8,12 @@ import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+
+import com.cdt.glide.R;
 
 import java.util.ArrayList;
 
@@ -22,6 +22,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final int NUM_ITEMS = 2;
     private final ArrayList<BaseFragment> mFragments = new ArrayList<>(NUM_ITEMS);
     private ViewPager mViewPager;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
@@ -62,6 +63,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+
+        mSwipeRefreshLayout = ((SwipeRefreshLayout) findViewById(R.id.swipe_refresh_view));
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
             }
         });
     }

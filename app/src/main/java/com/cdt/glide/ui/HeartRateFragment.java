@@ -1,4 +1,4 @@
-package com.cdt.glide;
+package com.cdt.glide.ui;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,17 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cdt.glide.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link BloodPressureFragment.OnFragmentInteractionListener} interface
+ * {@link HeartRateFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link BloodPressureFragment#newInstance} factory method to
+ * Use the {@link HeartRateFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BloodPressureFragment extends BaseFragment {
-    public BloodPressureFragment() {
+public class HeartRateFragment extends BaseFragment {
+    public HeartRateFragment() {
         // Required empty public constructor
     }
 
@@ -31,8 +33,8 @@ public class BloodPressureFragment extends BaseFragment {
      * @return A new instance of fragment HeartRateFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BloodPressureFragment newInstance(String param1, String param2) {
-        BloodPressureFragment fragment = new BloodPressureFragment();
+    public static HeartRateFragment newInstance(String param1, String param2) {
+        HeartRateFragment fragment = new HeartRateFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -53,7 +55,7 @@ public class BloodPressureFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blood_pressure, container, false);
+        return inflater.inflate(R.layout.fragment_heart_rate, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -82,6 +84,6 @@ public class BloodPressureFragment extends BaseFragment {
 
     @Override
     public String getTitle() {
-        return "血压";
+        return "心率";
     }
 }

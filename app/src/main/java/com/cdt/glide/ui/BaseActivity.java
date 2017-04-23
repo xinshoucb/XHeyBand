@@ -1,8 +1,10 @@
-package com.cdt.glide;
+package com.cdt.glide.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
+
+import com.cdt.glide.R;
 
 public class BaseActivity extends AppCompatActivity {
 

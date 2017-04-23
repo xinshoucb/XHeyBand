@@ -1,4 +1,4 @@
-package com.cdt.glide;
+package com.cdt.glide.ui;
 
 import android.net.Uri;
 import android.support.v4.app.Fragment;

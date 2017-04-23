@@ -34,5 +34,17 @@ dependencies {
 //    compile 'com.github.linger1216:labelview:v1.1.2' //角标
     compile 'com.txusballesteros:FitChart:1.0' //圆形进度条
 
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+
+    compile 'com.google.code.gson:gson:2.3'
+
+    compile 'io.reactivex:rxjava:1.1.5'
+    compile 'io.reactivex:rxandroid:1.2.0'
+
     testCompile 'junit:junit:4.12'
 }

@@ -10,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cdt.glide.R;
+import com.txusballesteros.widgets.FitChart;
+import com.txusballesteros.widgets.FitChartValue;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 /**
@@ -22,6 +27,7 @@ import com.cdt.glide.R;
  */
 public class HeartRateFragment extends BaseFragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private FitChart mFitChart;
 
     public HeartRateFragment() {
         // Required empty public constructor
@@ -67,11 +73,24 @@ public class HeartRateFragment extends BaseFragment {
                 mSwipeRefreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+//                        Collection<FitChartValue> values = new ArrayList<>();
+//                        values.add(new FitChartValue(30f, 0x2d4302));
+//                        values.add(new FitChartValue(20f, 0x75a80d));
+//                        values.add(new FitChartValue(15f, 0x8fc026));
+//                        values.add(new FitChartValue(10f, 0xB5CC84));
+//                        mFitChart.setValues(values);
+
+                        mFitChart.setValue(40f);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                 }, 1000);
             }
         });
+
+        mFitChart = ((FitChart) contentView.findViewById(R.id.fitChart));
+        mFitChart.setMinValue(0f);
+        mFitChart.setMaxValue(100f);
+        mFitChart.setValue(80f);
 
         return contentView;
     }

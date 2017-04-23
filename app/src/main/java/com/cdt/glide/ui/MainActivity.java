@@ -1,21 +1,26 @@
 package com.cdt.glide.ui;
 
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.cdt.glide.R;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, BaseFragment.OnFragmentInteractionListener {
 
@@ -37,6 +42,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                setCircleImageView();
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -63,7 +90,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             }
         });
+    }
 
+    private void setCircleImageView(){
+        CircleImageView imageView = ((CircleImageView) findViewById(R.id.profile_image));
+
+        Drawable color = new ColorDrawable(getResources().getColor(R.color.icons));
+        Drawable image = getResources().getDrawable(android.R.drawable.sym_def_app_icon);
+
+        LayerDrawable ld = new LayerDrawable(new Drawable[]{color, image});
+
+        imageView.setImageDrawable(ld);
     }
 
     private void initFragments(){

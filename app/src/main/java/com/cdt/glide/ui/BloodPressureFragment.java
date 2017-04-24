@@ -7,8 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cdt.glide.R;
+import com.cdt.glide.net.Entity.WeatherJson;
+import com.cdt.glide.net.base.BaseClient;
+import com.cdt.glide.net.client.WeatherClient;
+import com.cdt.glide.net.endpoint.WeatherEndpoint;
+import com.cdt.glide.util.Logger;
+
+import okhttp3.ResponseBody;
+import rx.Observer;
 
 
 /**
@@ -20,6 +29,8 @@ import com.cdt.glide.R;
  * create an instance of this fragment.
  */
 public class BloodPressureFragment extends BaseFragment {
+    private static final String TAG = "BloodPressureFragment";
+
     public BloodPressureFragment() {
         // Required empty public constructor
     }
@@ -52,10 +63,30 @@ public class BloodPressureFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blood_pressure, container, false);
+        View contentView = inflater.inflate(R.layout.fragment_blood_pressure, container, false);
+        final TextView tv = ((TextView) contentView.findViewById(R.id.textView));
+
+        new WeatherClient("http://www.weather.com.cn/").getWeather("101010100").subscribe(new Observer<WeatherJson>() {
+            @Override
+            public void onCompleted() {
+                Logger.e(TAG, "get weather info completed");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.e(TAG, "get weather info error");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(WeatherJson weatherJson) {
+                tv.setText(weatherJson.toString());
+            }
+        });
+
+        return contentView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -71,8 +102,7 @@ public class BloodPressureFragment extends BaseFragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 

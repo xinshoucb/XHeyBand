@@ -13,12 +13,11 @@ public class OkHttpClients {
     private OkHttpClients() {
     }
 
-
     public static OkHttpClient getOkHttpClient() {
         if (mClient == null) {
-            // TODO: David 6/15/16 这里也需要能够在请求的时候自定义配置level，而且能够在runtime 配置
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
             mClient = new OkHttpClient
                     .Builder()
                     .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
